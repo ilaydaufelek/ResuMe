@@ -1,7 +1,7 @@
 import { Sidebar } from "@/components/sidebar"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { SheetTrigger,Sheet, SheetContent, SheetHeader, SheetTitle  } from "@/components/ui/sheet"
-import { Menu} from "lucide-react"
+import {  PanelLeftOpen} from "lucide-react"
 
 
 const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +10,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
     
       <Sheet >
       <SheetTrigger className="md:hidden inset-x-0 fixed top-2">
-       <Menu className="w-4 h-4" />
+       <PanelLeftOpen className="w-4 h-4 m-2 " />
         </SheetTrigger>
        <SheetHeader className="hidden" >
         <SheetTitle></SheetTitle>
@@ -30,7 +30,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
        className="hidden md:flex" >
         <div className="  md:flex h-full w-full md:h-screen min-w-[300px]  items-center  p-6  ">
          <Sidebar/>
-        </div>
+       </div>
       </ResizablePanel>
 
       <ResizableHandle withHandle className="hidden md:flex" />
