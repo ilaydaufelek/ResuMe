@@ -15,6 +15,11 @@ import { Textarea } from './ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 
 
+type ExperienceItem = { company?: string; date?: string }
+type LanguageItem = { name?: string }
+type EducationItem = { name?: string; date?: string }
+type CertificationItem = { name?: string; date?: string }
+
 
 const formSchema = z.object({
   phone: z.string().optional(),
@@ -191,7 +196,7 @@ export const SidebarItem = () => {
     {form.getValues('experience')?.length > 0  
     ? (
       <div className="space-y-2  ">
-        {form.getValues("experience").map((exp: any, i: number) => (
+        {form.getValues("experience").map((exp:ExperienceItem, i: number) => (
           <DropdownMenu key={i}>
       <DropdownMenuTrigger className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
           {exp.company} - {exp.date}
@@ -245,7 +250,7 @@ export const SidebarItem = () => {
     {form.getValues('education').length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('education').map((exp:any , i:number)=>(
+        {form.getValues('education').map((exp:EducationItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} - {exp.date}
@@ -302,7 +307,7 @@ export const SidebarItem = () => {
     {form.getValues('certifications').length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('certifications').map((exp:any , i:number)=>(
+        {form.getValues('certifications').map((exp:CertificationItem, i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} - {exp.date}
@@ -360,7 +365,7 @@ export const SidebarItem = () => {
     {form.getValues('languages').length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('languages').map((exp:any , i:number)=>(
+        {form.getValues('languages').map((exp:LanguageItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} 
