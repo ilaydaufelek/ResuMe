@@ -30,7 +30,7 @@ export const CertificationsModal=()=>{
           <div key={field.id} className="flex space-x-2">
             <Input
               placeholder="Name"
-              {...form.register(`certifications.${index}.company`)}
+              {...form.register(`certifications.${index}.name`)}
             />
             <Input
               placeholder="April 2024 - Present"

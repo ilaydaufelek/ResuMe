@@ -1,14 +1,15 @@
 'use client'
 import { useModal } from "@/hooks/use-modal-store"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useFieldArray,  useFormContext } from "react-hook-form";
+import { Controller, useFieldArray,  useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Slider } from "../ui/slider";
 
 
 
 export const LanguagesModal=()=>{
-    const {onOpen,onClose,type,isOpen}=useModal();
+    const {onClose,type,isOpen}=useModal();
     const isModalOpen=isOpen && type==='languages'
     
     
@@ -28,22 +29,33 @@ export const LanguagesModal=()=>{
         </DialogHeader>
 
         {fields.map((field, index) => (
-          <div key={field.id} className="flex space-x-2">
+          <div key={field.id} className="space-y-4">
+            <div className="flex space-x-2 " >
+             <Button
+              className="bg-primary text-primary-foreground shadow-xs hover:bg-red-600/60"
+              size='icon'
+              onClick={()=>remove(index)} >-</Button>
+            
             <Input
               placeholder="Name"
               {...form.register(`languages.${index}.name`)}
             />
-           
+            </div>
+          <Controller
+        name={`languages.${index}.level`}
+         control={form.control}
+       render={({ field }) => (
+          <Slider
+         value={[field.value || 1]}
+          max={6}
+         step={1}
+      onValueChange={(val) => field.onChange(val[0])}/>
+                                               
+  )}
+/>
 
       
 
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={()=>remove(index)}
-            >
-              X
-            </Button>
         
 
           </div>
@@ -51,7 +63,8 @@ export const LanguagesModal=()=>{
         
           <Button
           type="button"
-         onClick={()=>append({name:'' })}
+
+         onClick={()=>append({name:'' ,level:''})}
         >
           + Add new item
         </Button>

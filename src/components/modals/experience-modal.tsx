@@ -7,6 +7,7 @@ import { Input } from "../ui/input";
 
 
 
+
 export const ExperienceModal=()=>{
     const {onClose,type,isOpen}=useModal();
     const isModalOpen=isOpen && type==='experience'
@@ -17,9 +18,11 @@ export const ExperienceModal=()=>{
     control:form.control,
     name:'experience'
   })
+
     const handleClose=()=>{
       onClose();
     }
+  
     return(
        <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-zinc-900 p-6 space-y-4">

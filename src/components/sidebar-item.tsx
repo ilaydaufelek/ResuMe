@@ -1,105 +1,53 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { z } from 'zod'
-import { FormProvider, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormContext } from 'react-hook-form'
+
 import { useModal } from '@/hooks/use-modal-store'
 import { ModalProvider } from '@/components/providers/modal-provider'
+import { CertificationItem, EducationItem, ExperienceItem, FormValues, LanguageItem } from '@/types/formValues'
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import {  FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Button } from './ui/button'
 import { Award, Handbag, Languages, MenuSquare, Trash, User2 } from 'lucide-react'
 import { Textarea } from './ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { toast } from 'sonner'
 
 
-type ExperienceItem = { company?: string; date?: string }
-type LanguageItem = { name?: string }
-type EducationItem = { name?: string; date?: string }
-type CertificationItem = { name?: string; date?: string }
 
 
-const formSchema = z.object({
-  phone: z.string().optional(),
-  fullname: z.string().optional() ,
-  email: z.string().optional() ,
-  location: z.string().optional(),
-  website: z.string().optional(),
-  summary: z.string().optional(), 
-  experience: z.array(
-    z.object({
-      company:z.string().optional(),
-      date:z.string().optional(),
-    })
-  ),
-  languages: z.array(
-   z.object({
-    name:z.string().optional()
-   })
-  ),
-  education:z.array(
-    z.object({
-      name:z.string().optional(),
-      date:z.string().optional()
-    })
-  ),
-  certifications: z.array(
-    z.object({
-      name:z.string().optional(),
-      date:z.string().optional()
-    })
-  )  
-    
 
-})
 
 export const SidebarItem = () => {
-  const router = useRouter();
   const{onOpen}=useModal()
+  const {control, getValues,handleSubmit, formState } = useFormContext<FormValues>()
+  
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      phone: '',
-      fullname: '',
-      email:'',
-      location:'' ,
-      website:'',
-      summary:'',
-      experience:[],
-      languages:[],
-      education:[],
-      certifications:[],
-    }
-  })
-
-  const isLoading = form.formState.isSubmitting
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    localStorage.setItem('resume', JSON.stringify(values))
-    console.log( values)
-   
-    router.refresh()
-  }
  
+ 
+
+  const onSubmit = (values:FormValues) => {
+    localStorage.setItem('resume', JSON.stringify(values));
+    toast("Your changes have been saved")
    
+  }
+   
+
  
   return (
   
-    <FormProvider {...form} >
-     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6   ">
-
-        <div className='flex text-xl items-center space-x-2 py-4   ' >
+   <div className='space-y-4  ' >
+   
+      <div className='flex text-xl items-center space-x-2 py-4   ' >
           <User2 className='' />
           <p className='  font-semibold  ' >
             Personal Information
           </p> 
           </div>
         <FormField
-          control={form.control}
+          control={control}
           name="fullname"
           render={({ field }) => (
             <FormItem>
@@ -107,7 +55,9 @@ export const SidebarItem = () => {
               <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input 
-                className='w-full'  {...field} />
+                className='w-full' 
+                 {...field} 
+               />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +65,7 @@ export const SidebarItem = () => {
         />
        <div className='flex w-full space-x-4 '  >
          <FormField 
-        control={form.control}
+        control={control}
         name='email'
         render={({field})=>(
            <FormItem >
@@ -128,7 +78,7 @@ export const SidebarItem = () => {
 
         </FormField>
          <FormField 
-        control={form.control}
+        control={control}
         name='website'
         render={({field})=>(
            <FormItem >
@@ -143,7 +93,7 @@ export const SidebarItem = () => {
        </div>
         <div className='flex w-full space-x-4 '  >
          <FormField 
-        control={form.control}
+        control={control}
         name='phone'
         render={({field})=>(
            <FormItem >
@@ -156,7 +106,7 @@ export const SidebarItem = () => {
                 
         </FormField>
          <FormField 
-        control={form.control}
+        control={control}
         name='location'
         render={({field})=>(
            <FormItem >
@@ -175,7 +125,7 @@ export const SidebarItem = () => {
         <p>Summary</p>
          </div>
          <FormField 
-        control={form.control}
+        control={control}
         name='summary'
         render={({field})=>(
            <FormItem >
@@ -187,16 +137,17 @@ export const SidebarItem = () => {
 
         </FormField>
          <DropdownMenuSeparator />
+
      <FormItem  className='mt-4 ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Handbag className='w-4 h-4' />
         <p>Experience</p>
          </div>
   <FormControl>
-    {form.getValues('experience')?.length > 0  
+    {getValues('experience')?.length > 0  
     ? (
       <div className="space-y-2  ">
-        {form.getValues("experience").map((exp:ExperienceItem, i: number) => (
+        {getValues("experience").map((exp:ExperienceItem, i: number) => (
           <DropdownMenu key={i}>
       <DropdownMenuTrigger className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
           {exp.company} - {exp.date}
@@ -206,8 +157,7 @@ export const SidebarItem = () => {
               
       <Trash 
       onClick={()=>{
-         const resume=JSON.parse(localStorage.getItem('resume')|| '{}')
-          localStorage.removeItem(resume.experience)
+         
         }
       } className="w-4 h-4 text-rose-700" />
       <p>Remove</p>
@@ -219,7 +169,7 @@ export const SidebarItem = () => {
        <div className='w-full flex' >
          <button
           type="button"
-          onClick={() => onOpen("experience")}
+          onClick={() => onOpen("experience",)}
           className="text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
         >
           + Add new item
@@ -247,10 +197,10 @@ export const SidebarItem = () => {
         <p>Education</p>
          </div>
   <FormControl>
-    {form.getValues('education').length >0 
+    {getValues('education')?.length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('education').map((exp:EducationItem , i:number)=>(
+        {getValues('education').map((exp:EducationItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} - {exp.date}
@@ -304,10 +254,10 @@ export const SidebarItem = () => {
         <p>Certifications</p>
          </div>
   <FormControl>
-    {form.getValues('certifications').length >0 
+    {getValues('certifications')?.length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('certifications').map((exp:CertificationItem, i:number)=>(
+        {getValues('certifications').map((exp:CertificationItem, i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} - {exp.date}
@@ -362,10 +312,10 @@ export const SidebarItem = () => {
         <p>Languages</p>
          </div>
   <FormControl>
-    {form.getValues('languages').length >0 
+    {getValues('languages')?.length >0 
     ?(
        <div className='space-y-2' >
-        {form.getValues('languages').map((exp:LanguageItem , i:number)=>(
+        {getValues('languages').map((exp:LanguageItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} 
@@ -414,15 +364,16 @@ export const SidebarItem = () => {
 
         
 <Button
-className='w-full my-4' type="submit" disabled={isLoading}>
+className='w-full my-4 cursor-pointer ' type="submit"  
+onClick={handleSubmit(onSubmit)}
+disabled={formState.isSubmitting}>
    Save
 </Button>
 
 <ModalProvider/>
-      </form>
-    </Form>
+   </div>
+
     
-   </FormProvider>
    
   )
 }

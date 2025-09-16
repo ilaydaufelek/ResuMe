@@ -1,15 +1,91 @@
+'use client'
+import {z} from 'zod'
 import { Sidebar } from "@/components/sidebar"
+import { TemplatePage } from "@/components/templates/template"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { SheetTrigger,Sheet, SheetContent, SheetHeader, SheetTitle  } from "@/components/ui/sheet"
-import {  PanelLeftOpen} from "lucide-react"
+import {  PanelLeftOpen,  PanelRightOpen} from "lucide-react"
+import { FormProvider, useForm } from "react-hook-form"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
+
+
+const formSchema = z.object({
+  phone: z.string().optional(),
+  fullname: z.string().optional() ,
+  email: z.string().optional() ,
+  location: z.string().optional(),
+  website: z.string().optional(),
+  summary: z.string().optional(), 
+  experience: z.array(
+    z.object({
+      company:z.string().optional(),
+      date:z.string().optional(),
+    })
+  ),
+  languages: z.array(
+   z.object({
+    name:z.string().optional(),
+    level:z.number().optional()
+   })
+  ),
+  education:z.array(
+    z.object({
+      name:z.string().optional(),
+      date:z.string().optional()
+    })
+  ),
+  certifications: z.array(
+    z.object({
+      name:z.string().optional(),
+      date:z.string().optional()
+    })
+  )  
+    
+
+})
 
 
 const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
+
+  const [isLoaded,setIsLoaded]=useState(false)
+
+ const storedValues = typeof window !== 'undefined'
+    ? localStorage.getItem('resume')
+    : null
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+     resolver: zodResolver(formSchema),
+     defaultValues:storedValues ? JSON.parse(storedValues): {
+       phone: '',
+       fullname: '', 
+       email:'',
+       location:'' ,
+       website:'',
+       summary:'',
+       experience:[],
+       languages:[],
+       education:[],
+       certifications:[],
+     }
+   }) 
+   
+
+    useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
+  if (!isLoaded) return null
+
+
   return (
-   <div className="h-full md:h-screen w-full " >
+   <FormProvider {...form}>
+  <div className="h-full md:h-screen w-full  " >
     
-      <Sheet >
-      <SheetTrigger className="md:hidden inset-x-0 fixed top-2">
+     <div className="flex items-center justify-between inset-x-0 fixed " >
+       <div>
+        <Sheet >
+      <SheetTrigger className="md:hidden  ">
        <PanelLeftOpen className="w-4 h-4 m-2 " />
         </SheetTrigger>
        <SheetHeader className="hidden" >
@@ -19,14 +95,29 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
             <Sidebar />
           </SheetContent>
           </Sheet>
+      </div>
+          <div>
+             <Sheet >
+      <SheetTrigger className="md:hidden  ">
+       <PanelRightOpen className="w-4 h-4 m-2 " />
+        </SheetTrigger>
+       <SheetHeader className="hidden" >
+        <SheetTitle></SheetTitle>
+       </SheetHeader>
+        <SheetContent side="right" className="p-0 flex items-center justify-center w-[350px]">
+            <TemplatePage />
+          </SheetContent>
+          </Sheet>
     
+          </div>
+     </div>
      <ResizablePanelGroup
       direction="horizontal"
       className=" h-full  md:h-screen w-full md:w-screen  border">
     
      
       <ResizablePanel 
-      defaultSize={23} maxSize={28} minSize={14}
+      defaultSize={24} maxSize={28} minSize={14}
        className="hidden md:flex" >
         <div className="  md:flex h-full w-full md:h-screen min-w-[300px]  items-center  p-6  ">
          <Sidebar/>
@@ -36,12 +127,24 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
       <ResizableHandle withHandle className="hidden md:flex" />
 
       <ResizablePanel defaultSize={75}>
-        <div className="h-screen  ">
+        <div className="h-screen   ">
          {children}
         </div>
       </ResizablePanel>
+
+    <ResizableHandle withHandle className="hidden md:flex" />
+     
+      
+      <ResizablePanel 
+      defaultSize={23} maxSize={28} minSize={14}
+       className="hidden md:flex" >
+        <div className="  flex h-full w-full md:h-screen min-w-[300px] justify-center items-center ">
+         <TemplatePage/>
+       </div>
+      </ResizablePanel>
     </ResizablePanelGroup>
    </div>
+   </FormProvider>
   )
 }
 
