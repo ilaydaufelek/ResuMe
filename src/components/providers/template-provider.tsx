@@ -18,7 +18,7 @@ export const TemplateProvider = () => {
   switch(type) {
     case 'kakuna':
       return <KakunaCv />;
-    case 'onxy':
+    case 'onyx':
       return <OnyxCv />;
     default:
       return <KakunaCv/>;

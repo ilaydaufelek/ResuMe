@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 
-type TemplateType='onxy' | 'kakuna' |'bronzor'
+ export type TemplateType='onyx' | 'kakuna' |'bronzor'
 
 interface TemplateStore{
     type:TemplateType | null;
@@ -10,7 +10,7 @@ interface TemplateStore{
 }
 
 export const useTemplate=create<TemplateStore>((set)=>({
-    type:null,
+    type:'kakuna',
     isOpen:false,
     onOpen:(type)=>set({isOpen:true,type}),
     
