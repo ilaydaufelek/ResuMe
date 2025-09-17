@@ -15,13 +15,9 @@ export const TemplateProvider = () => {
 
   if (!isMounted) return null;
 
-  switch(type) {
-    case 'kakuna':
-      return <KakunaCv />;
-    case 'onyx':
-      return <OnyxCv />;
-    default:
-      return <KakunaCv/>;
-      
+ switch(type) {
+    case 'kakuna': return <KakunaCv />
+    case 'onyx': return <OnyxCv  />
+    default: return <KakunaCv  />
   }
 }

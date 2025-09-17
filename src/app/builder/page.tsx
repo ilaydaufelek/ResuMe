@@ -1,6 +1,5 @@
 'use client'
 import { PreviewPage } from "@/components/preview"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Toaster } from "@/components/ui/sonner"
 import { useRef, useState } from "react"
 import { toPng } from "html-to-image"
@@ -43,7 +42,13 @@ const BuildPage = () => {
   const downloadPDF = async () => {
     if (!ref.current) return
     try {
-      const dataUrl = await toPng(ref.current, { cacheBust: true })
+      // Tüm içerik boyutunu alıyoruz
+      const dataUrl = await toPng(ref.current, {
+        cacheBust: true,
+        width: ref.current.scrollWidth,
+        height: ref.current.scrollHeight,
+      })
+
       const pdf = new jsPDF("p", "mm", "a4")
       const imgProps = pdf.getImageProperties(dataUrl)
       const pdfWidth = pdf.internal.pageSize.getWidth()
@@ -56,29 +61,29 @@ const BuildPage = () => {
   }
 
   return (
-        
-    <div className="h-full md:h-screen w-full p-8 bg-zinc-900 flex items-center justify-center">
-        
+    <div className="h-full md:h-screen w-full  bg-zinc-900 md:flex items-center justify-center">
       <div className="w-full md:w-[800px] h-full">
-          <div
-            ref={ref}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp} // fare sayfadan çıksa sürüklemeyi durdur
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ transform: `translate(${position.x}px, ${position.y}px)`, cursor: dragging ? "grabbing" : "grab" }}
-            className="w-full space-x-4 bg-white space-y-4 min-h-screen md:h-screen touch-none"
-          >
-            <PreviewPage />
-            <Button onClick={downloadPDF} >pdf indir</Button>
-            <Toaster />
-          </div>
+        <div
+          ref={ref}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            cursor: dragging ? "grabbing" : "grab",
+          }}
+          className="w-full space-x-4 bg-white space-y-4 min-h-screen md:h-screen touch-none"
+        >
+          <PreviewPage />
+          <Button onClick={downloadPDF}>PDF İndir</Button>
+          <Toaster />
+        </div>
       </div>
     </div>
-   
   )
 }
 
