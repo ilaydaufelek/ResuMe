@@ -38,7 +38,7 @@ export const SidebarItem = () => {
  
   return (
   
-   <div className='space-y-4  ' >
+   <div className='space-y-4 w-full p-4 ' >
    
       <div className='flex text-xl items-center space-x-2 py-4   ' >
           <User2 className='' />
@@ -138,7 +138,7 @@ export const SidebarItem = () => {
         </FormField>
          <DropdownMenuSeparator />
 
-     <FormItem  className='mt-4 ' >
+     <FormItem  className='mt-4 overflow-hidden ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Handbag className='w-4 h-4' />
         <p>Experience</p>
@@ -146,11 +146,11 @@ export const SidebarItem = () => {
   <FormControl>
     {getValues('experience')?.length > 0  
     ? (
-      <div className="space-y-2  ">
+      <div className="space-y-2 overflow-hidden w-[300px] md:w-full  ">
         {getValues("experience").map((exp:ExperienceItem, i: number) => (
           <DropdownMenu key={i}>
-      <DropdownMenuTrigger className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
-          {exp.company} - {exp.date}
+      <DropdownMenuTrigger className="text-zinc-200 w-full   dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
+         <p className=' w-full break-words whitespace-normal text-left ' > {exp.company} - {exp.date}</p>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
       <DropdownMenuItem className="text-rose-700 cursor-pointer">
@@ -191,7 +191,7 @@ export const SidebarItem = () => {
 <DropdownMenuSeparator />
 
 
- <FormItem  className='mt-4' >
+ <FormItem  className='mt-4 overflow-hidden w-[300px] md:w-full ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Languages className='w-4 h-4' />
         <p>Education</p>
@@ -203,7 +203,7 @@ export const SidebarItem = () => {
         {getValues('education').map((exp:EducationItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
-            {exp.name} - {exp.date}
+           <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
          <DropdownMenuContent>
       <DropdownMenuItem className="text-rose-700 cursor-pointer">
@@ -248,7 +248,7 @@ export const SidebarItem = () => {
 
 <DropdownMenuSeparator />
  
- <FormItem  className='mt-4' >
+ <FormItem  className='mt-4 overflow-hidden  w-[300px] md:w-full ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Award className='w-4 h-4' />
         <p>Certifications</p>
@@ -260,7 +260,7 @@ export const SidebarItem = () => {
         {getValues('certifications').map((exp:CertificationItem, i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
-            {exp.name} - {exp.date}
+             <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
          <DropdownMenuContent>
       <DropdownMenuItem className="text-rose-700 cursor-pointer">
@@ -306,7 +306,7 @@ export const SidebarItem = () => {
 
   <DropdownMenuSeparator/>
  
- <FormItem  className='mt-4' >
+ <FormItem  className='mt-4 overflow-hidden w-[300px] md:w-full ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Languages className='w-4 h-4' />
         <p>Languages</p>
