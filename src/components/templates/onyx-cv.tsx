@@ -9,8 +9,8 @@ export const OnyxCv=()=>{
 
     return(
         <div className="text-zinc-900 h-full w-[300px] [@media(min-width:399px)]:w-full  p-2 space-y-2 ">
-          <div className=" space-y-2   md:full overflow-hidden " >
-        <p className="font-semibold  text-xl   " >{values.fullname}</p>
+          <div className=" space-y-2   md:full  " >
+        <p className="font-semibold  text-xl overflow-x-auto  " >{values.fullname}</p>
       </div>
        <div className="w-full flex md:flex md:space-x-4 overflow-x-auto space-x-4 ">
     <p className="flex items-center text-xs underline mt-1 whitespace-nowrap">

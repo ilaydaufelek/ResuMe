@@ -1,15 +1,14 @@
 'use client'
 import { PreviewPage } from "@/components/preview"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Toaster } from "@/components/ui/sonner"
-import { useRef, useState } from "react"
-import { toPng } from "html-to-image"
-import jsPDF from "jspdf"
-import { useClerk } from "@clerk/nextjs"
-import { Button } from "@/components/ui/button"
+import {  useState } from "react"
+
+
+
 
 const BuildPage = () => {
-  const ref = useRef<HTMLDivElement>(null)
-  const { user } = useClerk()
+
 
   const [dragging, setDragging] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -25,9 +24,10 @@ const BuildPage = () => {
     setPosition({ x: e.clientX - startPos.x, y: e.clientY - startPos.y })
   }
   const handleMouseUp = () => setDragging(false)
+  
 
   // Dokunmatik eventleri (mobil)
-  const handleTouchStart = (e: React.TouchEvent) => {
+ const handleTouchStart = (e: React.TouchEvent) => {
     setDragging(true)
     const touch = e.touches[0]
     setStartPos({ x: touch.clientX - position.x, y: touch.clientY - position.y })
@@ -39,51 +39,31 @@ const BuildPage = () => {
   }
   const handleTouchEnd = () => setDragging(false)
 
-  const downloadPDF = async () => {
-    if (!ref.current) return
-    try {
-      // Tüm içerik boyutunu alıyoruz
-      const dataUrl = await toPng(ref.current, {
-        cacheBust: true,
-        width: ref.current.scrollWidth,
-        height: ref.current.scrollHeight,
-      })
-
-      const pdf = new jsPDF("p", "mm", "a4")
-      const imgProps = pdf.getImageProperties(dataUrl)
-      const pdfWidth = pdf.internal.pageSize.getWidth()
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
-      pdf.addImage(dataUrl, "PNG", 0, 0, pdfWidth, pdfHeight)
-      pdf.save(`${user?.fullName}.pdf`)
-    } catch (err) {
-      console.error("PDF indirme hatası:", err)
-    }
-  }
 
   return (
-    <div className="h-full md:h-screen w-full  bg-zinc-900 md:flex items-center justify-center">
-      <div className="w-full md:w-[800px] h-full">
+    <div className="h-full md:h-screen w-full flex bg-zinc-900 justify-center items-center">
+      <div className="w-full md:w-[800px]  h-full md:h-screen ">
         <div
-          ref={ref}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
+           onTouchStart={handleTouchStart}
           onMouseLeave={handleMouseUp}
-          onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           style={{
             transform: `translate(${position.x}px, ${position.y}px)`,
             cursor: dragging ? "grabbing" : "grab",
           }}
-          className="w-full space-x-4 bg-white space-y-4 min-h-screen md:h-screen touch-none"
+          className="w-full h-screen space-x-4 bg-white space-y-4 min-h-screen md:h-screen touch-none mt-6 md:mt-1"
         >
+          <ScrollArea className="h-full" >
           <PreviewPage />
-          <Button onClick={downloadPDF}>PDF İndir</Button>
-          <Toaster />
+           </ScrollArea>
         </div>
+          <Toaster />
       </div>
-    </div>
+      </div>
   )
 }
 

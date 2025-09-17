@@ -11,13 +11,11 @@ export const KakunaCv = () => {
   const values = watch()
 
   return (
-    <div className="text-zinc-900 w-full p-2 space-y-2">
-      {/* Full Name */}
+    <div className="text-zinc-900 w-full h-full p-2 space-y-2">
+     
       <div className="space-y-2 w-full">
         <p className="font-semibold flex justify-center items-center text-xl">{values.fullname}</p>
       </div>
-
-      {/* Contact info */}
       <div className="w-full flex flex-wrap items-center justify-center space-x-4">
         {values.location && <p className="flex items-center text-xs underline mt-1"><MapPin className="w-3 h-3 mr-1" />{values.location}</p>}
         {values.phone && <p className="flex items-center text-xs underline mt-1"><Phone className="w-3 h-3 mr-1" />{values.phone}</p>}
@@ -25,7 +23,6 @@ export const KakunaCv = () => {
         {values.website && <p className="flex items-center text-xs underline mt-1"><Link className="w-3 h-3 mr-1" />{values.website}</p>}
       </div>
 
-      {/* Summary */}
       {values.summary && (
         <div className="w-full mt-4">
           <div className="flex items-center justify-center text-xs font-semibold text-zinc-600">Summary</div>
@@ -34,7 +31,7 @@ export const KakunaCv = () => {
         </div>
       )}
 
-      {/* Experience */}
+    
       {values.experience?.length > 0 && (
         <div className="w-full mt-4">
           <div className="flex items-center justify-center text-xs font-semibold text-zinc-600">Experience</div>
@@ -48,7 +45,6 @@ export const KakunaCv = () => {
         </div>
       )}
 
-      {/* Education */}
       {values.education?.length > 0 && (
         <div className="w-full mt-4">
           <div className="flex items-center justify-center text-xs font-semibold text-zinc-600">Education</div>
@@ -62,7 +58,6 @@ export const KakunaCv = () => {
         </div>
       )}
 
-      {/* Certifications */}
       {values.certifications?.length > 0 && (
         <div className="w-full mt-4">
           <div className="flex items-center justify-center text-xs font-semibold text-zinc-600">Certifications</div>
@@ -76,7 +71,6 @@ export const KakunaCv = () => {
         </div>
       )}
 
-      {/* Languages */}
       {values.languages?.length > 0 && (
         <div className="w-full mt-4">
           <div className="flex items-center justify-center text-xs font-semibold text-zinc-600">Languages</div>

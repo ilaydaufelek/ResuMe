@@ -82,7 +82,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
    <FormProvider {...form}>
   <div className="h-full md:h-screen w-full  " >
     
-     <div className="flex items-center justify-between inset-x-0 fixed " >
+     <div className="flex items-center justify-between inset-x-0 fixed z-30 bg-zinc-900 text-white " >
        <div>
         <Sheet >
       <SheetTrigger className="md:hidden  ">
@@ -127,7 +127,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
       <ResizableHandle withHandle className="hidden md:flex" />
 
       <ResizablePanel defaultSize={75}>
-        <div className="h-screen  bg-zinc-900   ">
+        <div className="h-screen   ">
          {children}
         </div>
       </ResizablePanel>
