@@ -191,7 +191,7 @@ export const SidebarItem = () => {
 <DropdownMenuSeparator />
 
 
- <FormItem  className='mt-4 overflow-hidden w-[300px] md:w-full ' >
+ <FormItem  className='mt-4 overflow-hidden ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Languages className='w-4 h-4' />
         <p>Education</p>
@@ -199,7 +199,7 @@ export const SidebarItem = () => {
   <FormControl>
     {getValues('education')?.length >0 
     ?(
-       <div className='space-y-2' >
+       <div className='space-y-2 overflow-hidden w-[300px] md:w-full  ' >
         {getValues('education').map((exp:EducationItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
@@ -248,7 +248,7 @@ export const SidebarItem = () => {
 
 <DropdownMenuSeparator />
  
- <FormItem  className='mt-4 overflow-hidden  w-[300px] md:w-full ' >
+ <FormItem  className='mt-4 overflow-hidden  ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Award className='w-4 h-4' />
         <p>Certifications</p>
@@ -256,7 +256,7 @@ export const SidebarItem = () => {
   <FormControl>
     {getValues('certifications')?.length >0 
     ?(
-       <div className='space-y-2' >
+       <div className='space-y-2 overflow-hidden w-[300px] md:w-full  '  >
         {getValues('certifications').map((exp:CertificationItem, i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
@@ -306,7 +306,7 @@ export const SidebarItem = () => {
 
   <DropdownMenuSeparator/>
  
- <FormItem  className='mt-4 overflow-hidden w-[300px] md:w-full ' >
+ <FormItem  className='mt-4 overflow-hidden ' >
       <div className='flex items-center space-x-2 font-semibold  '>
         <Languages className='w-4 h-4' />
         <p>Languages</p>
@@ -314,7 +314,7 @@ export const SidebarItem = () => {
   <FormControl>
     {getValues('languages')?.length >0 
     ?(
-       <div className='space-y-2' >
+       <div className='space-y-2 overflow-hidden w-[300px] md:w-full  ' >
         {getValues('languages').map((exp:LanguageItem , i:number)=>(
           <DropdownMenu key={i} >
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >

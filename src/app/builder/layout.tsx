@@ -127,7 +127,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
       <ResizableHandle withHandle className="hidden md:flex" />
 
       <ResizablePanel defaultSize={75}>
-        <div className="h-screen   ">
+        <div className="h-screen  bg-zinc-900   ">
          {children}
         </div>
       </ResizablePanel>

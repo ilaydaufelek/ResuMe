@@ -12,13 +12,13 @@ export const KakunaCv=()=>{
   const values = watch(); 
 
   return (
-    <div  className=" text-zinc-900 h-full w-[300px] [@media(min-width:399px)]:w-full  p-2 space-y-2 ">
+    <div  className=" text-zinc-900 h-full w-full   p-2 space-y-2 overflow-auto  ">
 
-      <div className=" space-y-2 w-full " >
+      <div className=" space-y-2  w-full  " >
         <p className="font-semibold flex justify-center items-center text-xl " >{values.fullname}</p>
-      
-       <div className="  w-full md:flex  items-center justify-center md:space-x-4  " >
-        <p className=" flex justify-center items-center text-xs underline mt-1 " >
+      </div>
+      <div className="  w-full flex  items-center justify-center space-x-4    " >
+        <p className=" flex justify-center items-center text-xs underline mt-1 ">
           {values.location ? <MapPin className="w-3 h-3 mr-1  " />: ''}
           {values.location}</p>
          <p className=" flex justify-center items-center text-xs underline mt-1 " >
@@ -31,7 +31,6 @@ export const KakunaCv=()=>{
           {values.website ? <Link className="w-3 h-3 mr-1 " />: ''}
           {values.website}</p>
        </div>
-      </div>
       {values.summary && (
          <div className="w-full mt-4" >
         <div className="flex items-center justify-center text-xs font-semibold text-zinc-600 " >Summary</div>
@@ -47,7 +46,7 @@ export const KakunaCv=()=>{
         <div className="flex items-center justify-center text-xs font-semibold text-zinc-600 " >Experience</div>
          <div className="border border-zinc-600 -mx-1 my-1 h-px" />
          {values.experience.map((exp,i)=>(
-          <div key={i} className=" w-full " >
+          <div key={i} className=" w-full overflow-x-auto " >
           <p className="font-semibold text-sm break-words whitespace-normal " >{exp.company}</p>
           <p className="font-semibold text-xs" >{exp.date}</p>
           </div>
@@ -74,7 +73,7 @@ export const KakunaCv=()=>{
         <div className="flex items-center justify-center text-xs font-semibold text-zinc-600 " >Certifications</div>
          <div className="border border-zinc-600 -mx-1 my-1 h-px" />
          {values.certifications.map((exp,i)=>(
-          <div key={i} className="w-full" >
+          <div key={i} className="w-full overflow-x-auto" >
           <p className="font-semibold text-sm break-words whitespace-normal "  >{exp.name}</p>
           <p className="font-semibold text-xs" >{exp.date}</p>
           </div>
@@ -86,7 +85,8 @@ export const KakunaCv=()=>{
         <div className="flex items-center justify-center text-xs font-semibold text-zinc-600 " >Languages</div>
          <div className="border border-zinc-600 -mx-1 my-1 h-px" />
          {values.languages.map((exp,i)=>(
-          <div key={i} className="w-full" >
+          <div key={i} className="w-full overflow-x-auto flex items-center justify-between space-x-2 " >
+          <p className="font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
           <div className="flex gap-1">
           {Array.from({ length: 6 }).map((_, idx) => {
            const level = exp.level ?? 0 
@@ -94,7 +94,7 @@ export const KakunaCv=()=>{
           return <Icon key={idx} className="w-3 h-3" />
           })}
         </div>
-          <p className="font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
+        
           </div>
          ))}
         </div>
