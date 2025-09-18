@@ -1,5 +1,5 @@
 // app/api/cv/route.ts
-import Error from "next/error";
+
 import { NextResponse } from "next/server";
 import puppeteer, { Browser } from "puppeteer";
 
@@ -96,12 +96,9 @@ export async function POST(req: Request) {
         "Cache-Control": "no-store",
       },
     });
-  } catch (error:Error | any) {
+  } catch (error) {
     console.error("PDF generation error:", error);
-    return NextResponse.json(
-      { error: "PDF oluşturulurken hata oluştu", detail: String(error?.message ?? error) },
-      { status: 500 }
-    );
+   
   } finally {
     if (browser) {
       try {
