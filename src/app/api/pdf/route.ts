@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       education: raw.education ?? [],
       certifications: raw.certifications ?? [],
       languages: raw.languages ?? [],
-      templateType: (raw.templateType ?? "kakuna") as any,
+      templateType: (raw.templateType ?? "kakuna"),
     };
 
     // HTML
