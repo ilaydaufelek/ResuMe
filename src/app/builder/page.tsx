@@ -26,38 +26,14 @@ const BuildPage = () => {
   const handleMouseUp = () => setDragging(false)
   
 
-  // Dokunmatik eventleri (mobil)
- const handleTouchStart = (e: React.TouchEvent) => {
-    setDragging(true)
-    const touch = e.touches[0]
-    setStartPos({ x: touch.clientX - position.x, y: touch.clientY - position.y })
-  }
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging) return
-    const touch = e.touches[0]
-    setPosition({ x: touch.clientX - startPos.x, y: touch.clientY - startPos.y })
-  }
-  const handleTouchEnd = () => setDragging(false)
+
 
 
   return (
-    <div className="h-full md:h-screen w-full flex bg-zinc-900 justify-center items-center">
-      <div className="w-full md:w-[800px]  h-full md:h-screen ">
-        <div
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-           onTouchStart={handleTouchStart}
-          onMouseLeave={handleMouseUp}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px)`,
-            cursor: dragging ? "grabbing" : "grab",
-          }}
-          className="w-full h-screen space-x-4 bg-white space-y-4 min-h-screen md:h-screen touch-none mt-6 md:mt-1"
-        >
-          <ScrollArea className="h-full" >
+    <div className="h-full md:h-screen w-full flex bg-zinc-900  justify-center items-center ">
+      <div className="w-full md:w-[800px] mt-20 flex items-center justify-center  h-full md:h-screen ">
+        <div className="w-[650px] md:w-[800px] h-screen space-x-4 bg-white space-y-4 min-h-screen md:h-screen  ">
+        <ScrollArea className="h-full" >
           <PreviewPage />
            </ScrollArea>
         </div>

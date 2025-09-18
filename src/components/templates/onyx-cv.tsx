@@ -8,7 +8,7 @@ export const OnyxCv=()=>{
     const values=watch();
 
     return(
-        <div className="text-zinc-900 h-full w-[300px] [@media(min-width:399px)]:w-full  p-2 space-y-2 ">
+        <div className="text-zinc-900 h-full w-[350px] [@media(min-width:399px)]:w-full  p-4 mb-12 space-y-2 ">
           <div className=" space-y-2   md:full  " >
         <p className="font-semibold  text-xl overflow-x-auto  " >{values.fullname}</p>
       </div>
