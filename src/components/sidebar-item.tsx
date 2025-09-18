@@ -152,17 +152,7 @@ export const SidebarItem = () => {
       <DropdownMenuTrigger className="text-zinc-200 w-full   dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
          <p className=' w-full break-words whitespace-normal text-left ' > {exp.company} - {exp.date}</p>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-      <DropdownMenuItem className="text-rose-700 cursor-pointer">
-              
-      <Trash 
-      onClick={()=>{
-         
-        }
-      } className="w-4 h-4 text-rose-700" />
-      <p>Remove</p>
-        </DropdownMenuItem>
-        </DropdownMenuContent>
+    
         </DropdownMenu>
         ))}
 
@@ -205,17 +195,7 @@ export const SidebarItem = () => {
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
            <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
-         <DropdownMenuContent>
-      <DropdownMenuItem className="text-rose-700 cursor-pointer">
-              
-      <Trash 
-      onClick={()=>{
-        
-        }
-      } className="w-4 h-4 text-rose-700" />
-      <p>Remove</p>
-        </DropdownMenuItem>
-        </DropdownMenuContent>
+       
         </DropdownMenu>
         
         ))}
@@ -262,17 +242,6 @@ export const SidebarItem = () => {
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
              <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
-         <DropdownMenuContent>
-      <DropdownMenuItem className="text-rose-700 cursor-pointer">
-              
-      <Trash 
-      onClick={()=>{
-        
-        }
-      } className="w-4 h-4 text-rose-700" />
-      <p>Remove</p>
-        </DropdownMenuItem>
-        </DropdownMenuContent>
         </DropdownMenu>
         
         ))}
@@ -320,17 +289,7 @@ export const SidebarItem = () => {
           <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} 
           </DropdownMenuTrigger>
-         <DropdownMenuContent>
-      <DropdownMenuItem className="text-rose-700 cursor-pointer">
-              
-      <Trash 
-      onClick={()=>{
-        
-        }
-      } className="w-4 h-4 text-rose-700" />
-      <p>Remove</p>
-        </DropdownMenuItem>
-        </DropdownMenuContent>
+         
         </DropdownMenu>
         
         ))}

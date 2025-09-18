@@ -8,7 +8,7 @@ export const OnyxCv=()=>{
     const values=watch();
 
     return(
-        <div className="text-zinc-900 h-full w-[350px] [@media(min-width:399px)]:w-full  p-4 mb-12 space-y-2 ">
+        <div className="text-zinc-900 h-full w-[350px] [@media(min-width:399px)]:w-[750px]  p-4 mb-12 space-y-2 ">
           <div className=" space-y-2   md:full  " >
         <p className="font-semibold  text-xl overflow-x-auto  " >{values.fullname}</p>
       </div>
@@ -30,20 +30,21 @@ export const OnyxCv=()=>{
       {values.website}
     </p>
    </div>
-   <div className="border border-rose-600 -mx-1 my-1 h-px  " />
+   
+   {values.fullname && <div className="border border-rose-600 -mx-1 my-1 h-px  " />}
       {values.summary && (
          <div className="w-full mt-4" >
         <div className="text-xs font-semibold text-rose-600 mb-2 ">Summary</div>
-         <div className="text-xs font-mono break-words whitespace-normal " >
+         <div className="text-xs font-mono break-words whitespace-normal  " >
           {values.summary}
         </div>
       </div>
       )}
-           {values.experience && values.experience.length > 0 && (
+          {values.experience && values.experience.length > 0 && (
         <div className="w-full mt-4" >
         <div className="text-xs font-semibold text-rose-600 " >Experience</div>
          {values.experience.map((exp,i)=>(
-         <div key={i} className="overflow-x-auto  " >
+         <div key={i} className="" >
             <div  className=" w-full flex items-center justify-between mt-2 space-x-4 " >
           <p className="font-semibold text-sm break-words whitespace-normal " >{exp.company}</p>
           <p className="font-semibold text-sm" >{exp.date}</p>
@@ -55,7 +56,8 @@ export const OnyxCv=()=>{
          ))}
         </div>
       )}
-      <div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " />
+    
+        {values.experience.length > 0 && <div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " /> }
           {values.education && values.education.length > 0 && (
         <div className="w-full mt-4" >
         <div className="text-xs font-semibold text-rose-600 " >Education</div>
@@ -71,8 +73,9 @@ export const OnyxCv=()=>{
          ))}
         </div>
       )}
-
-      <div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " />
+   
+      {values.education.length > 0 &&<div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " />}
+     
           {values.certifications && values.certifications.length > 0 && (
         <div className="w-full mt-4" >
         <div className="text-xs font-semibold text-rose-600 " >Certifications</div>
@@ -89,10 +92,11 @@ export const OnyxCv=()=>{
         </div>
       )}
 
-         <div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " />
+       {values.certifications.length > 0 && <div className="h-[0.3px] bg-rose-600 rounded-full w-full opacity-10 my-4 " />}
+
           {values.languages && values.languages.length > 0 && (
         <div className="w-full mt-4" >
-        <div className="text-xs font-semibold text-rose-600 " >Certifications</div>
+        <div className="text-xs font-semibold text-rose-600 " >Languages</div>
          {values.languages.map((exp,i)=>(
          <div key={i} className="overflow-x-auto space-x-4 ">
             <div className=" w-full flex items-center justify-between mt-2 space-x-4 " >

@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import puppeteer, { Browser } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
+
 // Puppeteer yalnızca Node.js runtime'da çalışır
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,7 +33,7 @@ export type FormValues = {
 /* ================== Route ================== */
 export async function POST(req: Request) {
   let browser: Browser | null = null;
-
+ 
   try {
     const raw = (await req.json()) as FormValues;
 
@@ -175,131 +176,148 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
     <html>
       <head>
         ${baseHead()}
-        <style>
-          body { 
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, "Apple Color Emoji","Segoe UI Emoji";
-            color: #27272a; width: 100%; padding: 8px; background: #fff;
-          }
-          .container { display: flex; flex-direction: column; gap: 8px; }
-          .fullname { font-weight: 600; font-size: 20px; line-height: 24px; text-align: center; }
-          .contact-info { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; }
-          .contact-item { display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; }
-          .section { width: 100%; margin-top: 16px; }
-          .section-title { display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#52525b; text-transform:uppercase; }
-          .section-divider { border-top: 1px solid #52525b; margin: 4px -8px; }
-          .section-content { font-size:12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; word-break: break-word; }
-          .item { margin-bottom: 8px; }
-          .item-title { font-weight:600; font-size:14px; word-break: break-word; }
-          .item-date { font-weight:600; font-size:12px; }
-          .language-item { display:flex; align-items:center; justify-content:space-between; gap:8px; }
-          .language-name { font-weight:600; font-size:14px; word-break: break-word; }
-          .language-level { display:flex; gap:4px; }
-          .level-icon { width:12px; height:12px; }
-          .filled-icon { fill: currentColor; }
-          .empty-icon { stroke: currentColor; fill: none; }
-        </style>
       </head>
-      <body>
-        <div class="container">
-          <p class="fullname">${getSafeValue(data.fullname)}</p>
-
-          <div class="contact-info">
-            ${data.location ? `
-  <div class="contact-item">
-    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-      <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-    </svg>
-    ${getSafeValue(data.location)}
-  </div>` : ""}
-
-${data.phone ? `
-  <div class="contact-item">
-    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-      <path d="M6.62 10.79a15.464 15.464 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.59a1 1 0 01-.25 1.02l-2.2 2.18z"/>
-    </svg>
-    ${getSafeValue(data.phone)}
-  </div>` : ""}
-
-${data.email ? `
-  <div class="contact-item">
-    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-      <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-    </svg>
-    ${getSafeValue(data.email)}
-  </div>` : ""}
-
-${data.website ? `
-  <div class="contact-item">
-    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18  c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2 v6h-2zm0 8h2v2h-2z"/> </svg>
-               
-             
-              
-              
-   
-    ${getSafeValue(data.website)}
-  </div>` : ""}
+      <body style="font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color: #18181b; background: #fff; padding: 16px;">
+        <div style="color: #18181b; width: 750px; padding: 16px; margin: 0 auto; margin-bottom: 32px; display: flex; flex-direction: column; gap: 8px;">
+          <!-- Fullname -->
+          <div style="margin-bottom: 8px;">
+            <p style="font-weight: 600; display: flex; justify-content: center; align-items: center; font-size: 20px; line-height: 28px; overflow-x: auto; margin: 0;">
+              ${getSafeValue(data.fullname)}
+            </p>
           </div>
 
+          <!-- Contact Info -->
+          <div style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 16px; overflow: auto;">
+            ${data.location ? `
+              <p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                ${getSafeValue(data.location)}
+              </p>` : ''}
+            
+            ${data.phone ? `
+              <p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                ${getSafeValue(data.phone)}
+              </p>` : ''}
+            
+            ${data.email ? `
+              <p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                ${getSafeValue(data.email)}
+              </p>` : ''}
+            
+            ${data.website ? `
+              <p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                ${getSafeValue(data.website)}
+              </p>` : ''}
+          </div>
+
+          <!-- Summary -->
           ${data.summary ? `
-            <div class="section">
-              <div class="section-title">Summary</div>
-              <div class="section-divider"></div>
-              <div class="section-content">${getSafeValue(data.summary)}</div>
-            </div>` : ""}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #52525b; margin-bottom: 4px;">
+                Summary
+              </div>
+              <div style="border: 1px solid #52525b; margin: 4px -16px;"></div>
+              <div style="font-size: 12px; font-family: monospace; word-break: break-word; white-space: normal; margin-top: 8px;">
+                ${getSafeValue(data.summary)}
+              </div>
+            </div>` : ''}
 
+          <!-- Experience -->
           ${data.experience.length ? `
-            <div class="section">
-              <div class="section-title">Experience</div>
-              <div class="section-divider"></div>
-              ${data.experience.map((exp) => `
-                <div class="item">
-                  <p class="item-title">${getSafeValue(exp.company ?? "")}</p>
-                  <p class="item-date">${getSafeValue(exp.date ?? "")}</p>
-                </div>`).join("")}
-            </div>` : ""}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #52525b; margin-bottom: 4px;">
+                Experience
+              </div>
+              <div style="border: 1px solid #52525b; margin: 4px -16px;"></div>
+              ${data.experience.map((exp, i) => `
+                <div style="width: 100%; margin-top: 8px;">
+                  <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal; margin: 0;">
+                    ${getSafeValue(exp.company ?? '')}
+                  </p>
+                  <p style="font-weight: 600; font-size: 12px; margin: 0;">
+                    ${getSafeValue(exp.date ?? '')}
+                  </p>
+                </div>
+              `).join('')}
+            </div>` : ''}
 
+          <!-- Education -->
           ${data.education.length ? `
-            <div class="section">
-              <div class="section-title">Education</div>
-              <div class="section-divider"></div>
-              ${data.education.map((edu) => `
-                <div class="item">
-                  <p class="item-title">${getSafeValue(edu.name ?? "")}</p>
-                  <p class="item-date">${getSafeValue(edu.date ?? "")}</p>
-                </div>`).join("")}
-            </div>` : ""}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #52525b; margin-bottom: 4px;">
+                Education
+              </div>
+              <div style="border: 1px solid #52525b; margin: 4px -16px;"></div>
+              ${data.education.map((edu, i) => `
+                <div style="width: 100%; margin-top: 8px;">
+                  <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal; margin: 0;">
+                    ${getSafeValue(edu.name ?? '')}
+                  </p>
+                  <p style="font-weight: 600; font-size: 12px; margin: 0;">
+                    ${getSafeValue(edu.date ?? '')}
+                  </p>
+                </div>
+              `).join('')}
+            </div>` : ''}
 
+          <!-- Certifications -->
           ${data.certifications.length ? `
-            <div class="section">
-              <div class="section-title">Certifications</div>
-              <div class="section-divider"></div>
-              ${data.certifications.map((cert) => `
-                <div class="item">
-                  <p class="item-title">${getSafeValue(cert.name ?? "")}</p>
-                  <p class="item-date">${getSafeValue(cert.date ?? "")}</p>
-                </div>`).join("")}
-            </div>` : ""}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #52525b; margin-bottom: 4px;">
+                Certifications
+              </div>
+              <div style="border: 1px solid #52525b; margin: 4px -16px;"></div>
+              ${data.certifications.map((cert, i) => `
+                <div style="width: 100%; margin-top: 8px;">
+                  <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal; margin: 0;">
+                    ${getSafeValue(cert.name ?? '')}
+                  </p>
+                  <p style="font-weight: 600; font-size: 12px; margin: 0;">
+                    ${getSafeValue(cert.date ?? '')}
+                  </p>
+                </div>
+              `).join('')}
+            </div>` : ''}
 
+          <!-- Languages -->
           ${data.languages.length ? `
-            <div class="section">
-              <div class="section-title">Languages</div>
-              <div class="section-divider"></div>
-              ${data.languages.map((lang) => {
-                const level = Math.max(0, Math.min(6, lang.level ?? 0));
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #52525b; margin-bottom: 4px;">
+                Languages
+              </div>
+              <div style="border: 1px solid #52525b; margin: 4px -16px;"></div>
+              ${data.languages.map((lang, i) => {
+                const level = lang.level ?? 0;
                 return `
-                  <div class="language-item">
-                    <p class="language-name">${getSafeValue(lang.name ?? "")}</p>
-                    <div class="language-level">
-                      ${Array.from({ length: 6 }).map((_, idx) =>
-                        idx < level
-                          ? `<svg class="level-icon filled-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>`
-                          : `<svg class="level-icon empty-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`
-                      ).join("")}
+                  <div style="width: 100%; margin-top: 8px;">
+                    <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+                      ${Array.from({ length: 6 }).map((_, idx) => {
+                        return idx < level
+                          ? `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#52525b"><circle cx="12" cy="12" r="6"/></svg>`
+                          : `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#52525b"><circle cx="12" cy="12" r="5"/></svg>`;
+                      }).join('')}
                     </div>
-                  </div>`;
-              }).join("")}
-            </div>` : ""}
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal; margin: 0;">
+                      ${getSafeValue(lang.name ?? '')}
+                    </p>
+                  </div>
+                `;
+              }).join('')}
+            </div>` : ''}
         </div>
       </body>
     </html>
@@ -312,96 +330,136 @@ function generateOnyxTemplate(data: Required<FormValues>): string {
     <html>
       <head>
         ${baseHead()}
-        <style>
-          body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:#27272a; padding:8px; background:#fff; }
-          .container { display:flex; flex-direction:column; gap:8px; }
-          .fullname { font-weight:600; font-size:20px; line-height:24px; }
-          .contact-info { display:flex; gap:16px; overflow-x:auto; }
-          .contact-item { display:flex; align-items:center; font-size:12px; text-decoration:underline; white-space:nowrap; }
-          .main-divider { border-top:1px solid #e11d48; margin:4px -8px; }
-          .thin-divider { height:.3px; background:#e11d48; border-radius:9999px; opacity:.1; margin:16px 0; }
-          .section { margin-top:16px; }
-          .section-title { font-size:12px; font-weight:600; color:#e11d48; margin-bottom:8px; }
-          .section-content { font-size:12px; font-family: ui-monospace, Menlo, Monaco, Consolas, "Courier New", monospace; word-break:break-word; }
-          .item-row { display:flex; justify-content:space-between; gap:16px; margin-top:8px; }
-          .item-title { font-weight:600; font-size:14px; flex:1; word-break:break-word; }
-          .item-date { font-weight:600; font-size:14px; white-space:nowrap; }
-          .language-item { display:flex; justify-content:space-between; gap:16px; margin:8px 0; }
-          .level-icon { width:12px; height:12px; color:#e11d48; }
-          .filled-icon { fill: currentColor; }
-          .empty-icon { stroke: currentColor; fill: none; }
-        </style>
       </head>
-      <body>
-        <div class="container">
-          <p class="fullname">${getSafeValue(data.fullname)}</p>
+      <body style="font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color: #18181b; background: #fff; padding: 16px;">
+        <div style="width: 750px; margin: 0 auto; margin-bottom: 48px; color: #18181b; padding: 16px;">
 
-          <div class="contact-info">
-            ${data.location ? `<div class="contact-item">📍 ${getSafeValue(data.location)}</div>` : ""}
-            ${data.phone ? `<div class="contact-item">📞 ${getSafeValue(data.phone)}</div>` : ""}
-            ${data.email ? `<div class="contact-item">✉️ ${getSafeValue(data.email)}</div>` : ""}
-            ${data.website ? `<div class="contact-item">🔗 ${getSafeValue(data.website)}</div>` : ""}
+          <!-- Fullname -->
+          <div style="margin-bottom: 8px;">
+            <p style="font-weight: 600; font-size: 20px; overflow-x: auto; margin: 0;">
+              ${getSafeValue(data.fullname)}
+            </p>
           </div>
 
-          <div class="main-divider"></div>
+          <!-- Contact -->
+          <div style="display: flex; gap: 16px; overflow-x: auto; flex-wrap: wrap;">
+            ${data.location ? `
+              <p style="display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                ${getSafeValue(data.location)}
+              </p>` : ''}
+            
+            ${data.phone ? `
+              <p style="display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                ${getSafeValue(data.phone)}
+              </p>` : ''}
+            
+            ${data.email ? `
+              <p style="display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                ${getSafeValue(data.email)}
+              </p>` : ''}
+            
+            ${data.website ? `
+              <p style="display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; white-space: nowrap;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                ${getSafeValue(data.website)}
+              </p>` : ''}
+          </div>
 
+          ${data.fullname ? `<div style="border: 1px solid #e11d48; margin: 4px -16px;"></div>` : ''}
+
+          <!-- Summary -->
           ${data.summary ? `
-            <div class="section">
-              <div class="section-title">Summary</div>
-              <div class="section-content">${getSafeValue(data.summary)}</div>
-            </div>` : ""}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="font-size: 12px; font-weight: 600; color: #e11d48; margin-bottom: 8px;">Summary</div>
+              <div style="font-size: 12px; font-family: monospace; word-break: break-word; white-space: normal;">
+                ${getSafeValue(data.summary)}
+              </div>
+            </div>` : ''}
 
+          <!-- Experience -->
           ${data.experience.length ? `
-            <div class="section">
-              <div class="section-title">Experience</div>
-              ${data.experience.map((exp) => `
-                <div class="item-row">
-                  <p class="item-title">${getSafeValue(exp.company ?? "")}</p>
-                  <p class="item-date">${getSafeValue(exp.date ?? "")}</p>
-                </div>`).join("")}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="font-size: 12px; font-weight: 600; color: #e11d48;">Experience</div>
+              ${data.experience.map((exp, i) => `
+                <div>
+                  <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 16px;">
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(exp.company ?? '')}</p>
+                    <p style="font-weight: 600; font-size: 14px;">${getSafeValue(exp.date ?? '')}</p>
+                  </div>
+                </div>
+              `).join('')}
             </div>
-            <div class="thin-divider"></div>` : ""}
+            <div style="height: 0.3px; background: #e11d48; border-radius: 9999px; width: 100%; opacity: 0.1; margin: 16px 0;"></div>
+          ` : ''}
 
+          <!-- Education -->
           ${data.education.length ? `
-            <div class="section">
-              <div class="section-title">Education</div>
-              ${data.education.map((edu) => `
-                <div class="item-row">
-                  <p class="item-title">${getSafeValue(edu.name ?? "")}</p>
-                  <p class="item-date">${getSafeValue(edu.date ?? "")}</p>
-                </div>`).join("")}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="font-size: 12px; font-weight: 600; color: #e11d48;">Education</div>
+              ${data.education.map((edu, i) => `
+                <div style="overflow-x: auto;">
+                  <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 16px;">
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(edu.name ?? '')}</p>
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(edu.date ?? '')}</p>
+                  </div>
+                </div>
+              `).join('')}
             </div>
-            <div class="thin-divider"></div>` : ""}
+            <div style="height: 0.3px; background: #e11d48; border-radius: 9999px; width: 100%; opacity: 0.1; margin: 16px 0;"></div>
+          ` : ''}
 
+          <!-- Certifications -->
           ${data.certifications.length ? `
-            <div class="section">
-              <div class="section-title">Certifications</div>
-              ${data.certifications.map((cert) => `
-                <div class="item-row">
-                  <p class="item-title">${getSafeValue(cert.name ?? "")}</p>
-                  <p class="item-date">${getSafeValue(cert.date ?? "")}</p>
-                </div>`).join("")}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="font-size: 12px; font-weight: 600; color: #e11d48;">Certifications</div>
+              ${data.certifications.map((cert, i) => `
+                <div style="overflow-x: auto;">
+                  <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 16px;">
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(cert.name ?? '')}</p>
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(cert.date ?? '')}</p>
+                  </div>
+                </div>
+              `).join('')}
             </div>
-            <div class="thin-divider"></div>` : ""}
+            <div style="height: 0.3px; background: #e11d48; border-radius: 9999px; width: 100%; opacity: 0.1; margin: 16px 0;"></div>
+          ` : ''}
 
+          <!-- Languages -->
           ${data.languages.length ? `
-            <div class="section">
-              <div class="section-title">Languages</div>
-              ${data.languages.map((lang) => {
-                const level = Math.max(0, Math.min(6, lang.level ?? 0));
-                return `
-                  <div class="language-item">
-                    <p class="item-title">${getSafeValue(lang.name ?? "")}</p>
-                    <div>
-                      ${Array.from({ length: 6 }).map((_, idx) =>
-                        idx < level
-                          ? `<svg class="level-icon filled-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`
-                          : `<svg class="level-icon empty-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`
-                      ).join("")}
+            <div style="width: 100%; margin-top: 16px;">
+              <div style="font-size: 12px; font-weight: 600; color: #e11d48;">Languages</div>
+              ${data.languages.map((lang, i) => `
+                <div style="overflow-x: auto; gap: 16px;">
+                  <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 16px;">
+                    <p style="font-weight: 600; font-size: 14px; word-break: break-word; white-space: normal;">${getSafeValue(lang.name ?? '')}</p>
+                    <div style="display: flex; gap: 4px;">
+                      ${Array.from({ length: 6 }).map((_, idx) => {
+                        const level = lang.level ?? 0;
+                        return idx < level 
+                          ? `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#e11d48"><circle cx="12" cy="12" r="6"/></svg>`
+                          : `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg>`;
+                      }).join('')}
                     </div>
-                  </div>`;
-              }).join("")}
-            </div>` : ""}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
         </div>
       </body>
     </html>
@@ -410,61 +468,164 @@ function generateOnyxTemplate(data: Required<FormValues>): string {
 
 /* ---------- Bronzor ---------- */
 function generateBronzorTemplate(data: Required<FormValues>): string {
+  const LevelMap: Record<number, string> = {
+    1: "Beginner",
+    2: "Elementary",
+    3: "Intermediate",
+    4: "Upper Intermediate",
+    5: "Advanced",
+    6: "Proficient"
+  };
+
   return `
-    <html>
-      <head>
-        ${baseHead()}
-        <style>
-          body { font-family: Georgia, "Times New Roman", Times, serif; padding:25px; background:#fff; color:#2c3e50; }
-          .container { max-width:800px; margin:0 auto; }
-          .fullname { font-weight:700; font-size:32px; text-align:center; color:#2c5282; margin-bottom:15px; }
-          .contact-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-bottom:30px; }
-          .contact-item { text-align:center; font-size:13px; }
-          .section { margin-bottom:25px; }
-          .section-title { font-weight:700; font-size:18px; color:#2c5282; border-bottom:2px solid #2c5282; padding-bottom:5px; margin-bottom:15px; }
-          .item { margin-bottom:10px; }
-          .item-title { font-weight:700; font-size:16px; }
-          .item-date { font-size:14px; color:#666; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="fullname">${getSafeValue(data.fullname)}</div>
-
-          <div class="contact-grid">
-            ${data.location ? `<div class="contact-item">📍 ${getSafeValue(data.location)}</div>` : ""}
-            ${data.phone ? `<div class="contact-item">📞 ${getSafeValue(data.phone)}</div>` : ""}
-            ${data.email ? `<div class="contact-item">✉️ ${getSafeValue(data.email)}</div>` : ""}
-            ${data.website ? `<div class="contact-item">🔗 ${getSafeValue(data.website)}</div>` : ""}
-          </div>
-
-          ${data.summary ? `
-            <div class="section">
-              <div class="section-title">Summary</div>
-              <div>${getSafeValue(data.summary)}</div>
-            </div>` : ""}
-
-          ${data.experience.length ? `
-            <div class="section">
-              <div class="section-title">Experience</div>
-              ${data.experience.map((exp) => `
-                <div class="item">
-                  <div class="item-title">${getSafeValue(exp.company ?? "")}</div>
-                  <div class="item-date">${getSafeValue(exp.date ?? "")}</div>
-                </div>`).join("")}
-            </div>` : ""}
-
-          ${data.education.length ? `
-            <div class="section">
-              <div class="section-title">Education</div>
-              ${data.education.map((edu) => `
-                <div class="item">
-                  <div class="item-title">${getSafeValue(edu.name ?? "")}</div>
-                  <div class="item-date">${getSafeValue(edu.date ?? "")}</div>
-                </div>`).join("")}
-            </div>` : ""}
+  <html>
+    <head>
+      ${baseHead()}
+    </head>
+    <body style="font-family: Georgia, 'Times New Roman', Times, serif; color: #18181b; background: #fff; padding: 16px;">
+      <div class="content-container" style=" margin: 0 auto; margin-bottom: 32px;">
+        <!-- Fullname -->
+        <div style="margin-bottom: 8px;">
+          <p style="font-weight: 600; display: flex; justify-content: center; align-items: center; font-size: 20px; line-height: 28px; overflow-x: auto;">
+            ${getSafeValue(data.fullname)}
+          </p>
         </div>
-      </body>
-    </html>
+
+        <!-- Contact -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; overflow: auto; flex-wrap: wrap;">
+          ${data.location ? `<p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            ${getSafeValue(data.location)}
+          </p>` : ''}
+          
+          ${data.phone ? `<p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            ${getSafeValue(data.phone)}
+          </p>` : ''}
+          
+          ${data.email ? `<p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            ${getSafeValue(data.email)}
+          </p>` : ''}
+          
+          ${data.website ? `<p style="display: flex; justify-content: center; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            ${getSafeValue(data.website)}
+          </p>` : ''}
+        </div>
+
+        <!-- Summary -->
+        ${data.summary ? `
+          <div style="margin-top: 16px;">
+            <div style="height: 1px; background-color: #0e7490; margin: 4px 0; opacity: 0.3;"></div>
+            <div style="display: flex; justify-content: space-between; padding:4px; ">
+              <div style="   font-size: 14px; font-weight: 700;">Summary</div>
+              <div style=" width:620px; font-size: 12px; font-family: monospace; word-break: break-word; white-space: normal;" class="wide-column">
+                ${getSafeValue(data.summary)}
+              </div>
+            </div>
+          </div>` : ''}
+
+        <!-- Experience -->
+       ${data.experience.length ? `
+  <div style="margin-top: 16px;">
+    <div style="height: 1px; background-color: #0e7490; margin: 4px 0; opacity: 0.3;"></div>
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+      <!-- Başlık -->
+      <div style="font-size: 14px; font-weight: 700; min-width: 100px;">Experience</div>
+
+      <!-- İçerik -->
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+        ${data.experience.map(exp => `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <p style="font-weight: 700; font-size: 14px; word-break: break-word; white-space: normal; flex: 1; margin: 0;">
+              ${getSafeValue(exp.company ?? "")}
+            </p>
+            <p style="font-weight: 700; font-size: 12px; margin: 0 0 0 8px;">
+              ${getSafeValue(exp.date ?? "")}
+            </p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>` : ''}
+
+       <!-- Education -->
+${data.education.length ? `
+  <div style="margin-top: 16px;">
+    <div style="height: 1px; background-color: #0e7490; margin: 4px 0; opacity: 0.3;"></div>
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+      <div style="font-size: 14px; font-weight: 700; min-width: 100px;">Education</div>
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+        ${data.education.map(edu => `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <p style="font-weight: 700; font-size: 14px; word-break: break-word; white-space: normal; flex: 1; margin: 0;">
+              ${getSafeValue(edu.name ?? "")}
+            </p>
+            <p style="font-weight: 700; font-size: 12px; margin: 0 0 0 8px;">
+              ${getSafeValue(edu.date ?? "")}
+            </p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>` : ''}
+
+<!-- Certifications -->
+${data.certifications.length ? `
+  <div style="margin-top: 16px;">
+    <div style="height: 1px; background-color: #0e7490; margin: 4px 0; opacity: 0.3;"></div>
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+      <div style="font-size: 14px; font-weight: 700; min-width: 100px;">Certifications</div>
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+        ${data.certifications.map(cert => `
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <p style="font-weight: 700; font-size: 14px; word-break: break-word; white-space: normal; flex: 1; margin: 0;">
+              ${getSafeValue(cert.name ?? "")}
+            </p>
+            <p style="font-weight: 700; font-size: 12px; margin: 0 0 0 8px;">
+              ${getSafeValue(cert.date ?? "")}
+            </p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>` : ''}
+
+<!-- Languages -->
+${data.languages.length ? `
+  <div style="margin-top: 16px;">
+    <div style="height: 1px; background-color: #0e7490; margin: 4px 0; opacity: 0.3;"></div>
+    <div style="display: flex; gap: 16px; align-items: flex-start;">
+      <div style="font-size: 14px; font-weight: 700; min-width: 100px;">Languages</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; flex: 1;">
+        ${data.languages.map(lang => `
+          <div style="display: flex; flex-direction: column;">
+            <p style="font-weight: 700; font-size: 14px; word-break: break-word; white-space: normal; margin:0;">
+              ${getSafeValue(lang.name ?? "")}
+            </p>
+            <p style="font-weight: 600; font-size: 12px; margin:2px 0 0 0;">
+              ${LevelMap[lang.level ?? 1]}
+            </p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>` : ''}
+      </div>
+    </body>
+  </html>
   `;
 }
+

@@ -11,7 +11,7 @@ export const KakunaCv = () => {
   const values = watch()
 
   return (
-    <div className="text-zinc-900 h-full  w-[350px] [@media(min-width:399px)]:w-full p-4 mb-8  space-x-3">
+    <div className="text-zinc-900 h-full  w-[350px] [@media(min-width:399px)]:w-[750px] p-4 mb-8  space-x-3">
       <div className=" space-y-2 w-full " >
         <p className="font-semibold flex justify-center items-center text-xl overflow-x-auto  " >{values.fullname}</p>
       </div>
