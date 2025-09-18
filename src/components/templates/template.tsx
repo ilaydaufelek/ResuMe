@@ -21,7 +21,7 @@ export const TemplatePage = () => {
     // Template type'ı da verilere ekliyoruz
     const pdfData = {
       ...values,
-      templateType: type // store'daki seçili template type
+      templateType: type 
     }
 
     const res = await fetch('/api/pdf', {
