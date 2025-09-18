@@ -8,6 +8,7 @@ import {  PanelLeftOpen,  PanelRightOpen} from "lucide-react"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
+import { useUser } from '@clerk/nextjs'
 
 
 const formSchema = z.object({
@@ -49,6 +50,7 @@ const formSchema = z.object({
 const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [isLoaded,setIsLoaded]=useState(false)
+  const{user}=useUser()
 
  const storedValues = typeof window !== 'undefined'
     ? localStorage.getItem('resume')
@@ -96,6 +98,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
           </SheetContent>
           </Sheet>
       </div>
+     <p className=' md:hidden flex items-center font-semibold' > {user?.fullName} CV</p>
           <div>
              <Sheet >
       <SheetTrigger className="md:hidden  ">
