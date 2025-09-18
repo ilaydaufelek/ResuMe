@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from "next/server";
-import puppeteer, { Browser } from "puppeteer";
+import puppeteer, { Browser } from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
-// Puppeteer yalnızca Node.js runtime'da çalışır (Edge'te çalışmaz)
+// Puppeteer yalnızca Node.js runtime'da çalışır
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -35,7 +36,6 @@ export async function POST(req: Request) {
   try {
     const raw = (await req.json()) as FormValues;
 
-    // Güvenli default’lar (array ve string guard’ları)
     const data: Required<FormValues> = {
       fullname: raw.fullname ?? "",
       email: raw.email ?? "",
@@ -62,32 +62,25 @@ export async function POST(req: Request) {
         ? generateBronzorTemplate(data)
         : generateKakunaTemplate(data);
 
-    // Chromium yolu: Çevreye göre otomatik veya env ile geçilebilir
-    const execPath =
-      process.env.PUPPETEER_EXECUTABLE_PATH ||
-      process.env.CHROME_EXECUTABLE_PATH ||
-      undefined;
+    const isVercel = !!process.env.VERCEL;
 
-    browser = await puppeteer.launch({
-      executablePath: execPath,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-      ],
-    });
+  const executablePath = isVercel
+  ? await chromium.executablePath() // Vercel ortamında otomatik
+  : "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const args = chromium.args;
+
+// Puppeteer launch
+browser = await puppeteer.launch({
+  args,
+  executablePath,
+  headless: true,
+  defaultViewport: { width: 1200, height: 800 },
+});
 
     const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "networkidle2", timeout: 45000 });
 
-    await page.setContent(html, {
-      waitUntil: "networkidle2",
-      timeout: 45_000,
-    });
-
-    // Uint8Array döner
-    // Uint8Array döner (Tür annotation'ını kaldırın)
-    const pdfUint8:any = await page.pdf({
+    const pdfUint8: any = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "20px", right: "20px", bottom: "20px", left: "20px" },
@@ -95,13 +88,10 @@ export async function POST(req: Request) {
 
     const filename = `cv-${template}.pdf`;
 
-    // ÖNERİLEN: Buffer kullanma; direkt Uint8Array ile dön
     return new Response(pdfUint8, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        // İndirme yerine tarayıcıda görüntülemek istiyorsan 'inline' yap:
-        // "Content-Disposition": `inline; filename="${filename}"`,
         "Content-Disposition": `attachment; filename="${filename}"`,
         "Content-Length": String(pdfUint8.byteLength),
         "Cache-Control": "no-store",
@@ -152,8 +142,7 @@ function getErrorPayload(error: unknown) {
   }
 }
 
-/* ================== Common head ================== */
-// Harici font @import kullanmıyoruz (prod’da bloklanma/timeout riski)
+/* ================== Base Head ================== */
 function baseHead() {
   return `
     <meta charset="utf-8" />
