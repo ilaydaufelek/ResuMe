@@ -1,13 +1,14 @@
-// app/api/cv/route.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from "next/server";
 import puppeteer, { Browser } from "puppeteer";
 
-// Puppeteer yalnızca Node.js runtime'da çalışır
+// Puppeteer yalnızca Node.js runtime'da çalışır (Edge'te çalışmaz)
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
+/* ================== Types ================== */
 export type ExperienceItem = { company?: string; date?: string };
 export type EducationItem = { name?: string; date?: string };
 export type CertificationItem = { name?: string; date?: string };
@@ -27,12 +28,14 @@ export type FormValues = {
   templateType?: "kakuna" | "onyx" | "bronzor";
 };
 
+/* ================== Route ================== */
 export async function POST(req: Request) {
   let browser: Browser | null = null;
 
   try {
     const raw = (await req.json()) as FormValues;
-    // Güvenli default’lar
+
+    // Güvenli default’lar (array ve string guard’ları)
     const data: Required<FormValues> = {
       fullname: raw.fullname ?? "",
       email: raw.email ?? "",
@@ -44,11 +47,14 @@ export async function POST(req: Request) {
       education: raw.education ?? [],
       certifications: raw.certifications ?? [],
       languages: raw.languages ?? [],
-      templateType: (raw.templateType ?? "kakuna"),
+      templateType: (raw.templateType ?? "kakuna") as any,
     };
 
-    // HTML
-    const template = (data.templateType || "kakuna").toLowerCase();
+    const template = (data.templateType || "kakuna").toLowerCase() as
+      | "kakuna"
+      | "onyx"
+      | "bronzor";
+
     const html =
       template === "onyx"
         ? generateOnyxTemplate(data)
@@ -56,62 +62,111 @@ export async function POST(req: Request) {
         ? generateBronzorTemplate(data)
         : generateKakunaTemplate(data);
 
-    // Launch (server’a göre executablePath ayarlanabilir)
+    // Chromium yolu: Çevreye göre otomatik veya env ile geçilebilir
     const execPath =
       process.env.PUPPETEER_EXECUTABLE_PATH ||
       process.env.CHROME_EXECUTABLE_PATH ||
       undefined;
 
     browser = await puppeteer.launch({
+      executablePath: execPath,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
         "--disable-gpu",
       ],
-      headless: "shell",
-      executablePath: execPath, // yoksa puppeteer kendi Chromium’unu kullanır
     });
 
     const page = await browser.newPage();
 
-    // Harici kaynaklara takılmamak için timeout’u yönet
-    await page.setContent(html, { waitUntil: "networkidle0", timeout: 45_000 });
+    await page.setContent(html, {
+      waitUntil: "networkidle0",
+      timeout: 45_000,
+    });
 
-    const pdfUint8 = await page.pdf({
+    // Uint8Array döner
+    // Uint8Array döner (Tür annotation'ını kaldırın)
+    const pdfUint8:any = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "20px", right: "20px", bottom: "20px", left: "20px" },
     });
 
-    const pdfBuffer = Buffer.from(pdfUint8);
     const filename = `cv-${template}.pdf`;
 
-    return new NextResponse(pdfBuffer, {
+    // ÖNERİLEN: Buffer kullanma; direkt Uint8Array ile dön
+    return new Response(pdfUint8, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
+        // İndirme yerine tarayıcıda görüntülemek istiyorsan 'inline' yap:
+        // "Content-Disposition": `inline; filename="${filename}"`,
         "Content-Disposition": `attachment; filename="${filename}"`,
-        "Content-Length": String(pdfBuffer.length),
+        "Content-Length": String(pdfUint8.byteLength),
         "Cache-Control": "no-store",
       },
     });
   } catch (error) {
-    console.error("PDF generation error:", error);
-   
+    const payload = getErrorPayload(error);
+    console.error("PDF generation error:", payload.console);
+    return NextResponse.json(payload.body, { status: 500 });
   } finally {
     if (browser) {
       try {
         await browser.close();
       } catch {
-        // yut
+        /* yut */
       }
     }
   }
 }
 
-/* ================= Helpers ================= */
+/* ================== Error helper ================== */
+function getErrorPayload(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      console: { name: error.name, message: error.message, stack: error.stack },
+      body: { error: "PDF oluşturulurken hata oluştu", detail: error.message },
+    };
+  }
+  if (typeof error === "string") {
+    return {
+      console: { message: error },
+      body: { error: "PDF oluşturulurken hata oluştu", detail: error },
+    };
+  }
+  try {
+    return {
+      console: { raw: error },
+      body: {
+        error: "PDF oluşturulurken hata oluştu",
+        detail: JSON.stringify(error),
+      },
+    };
+  } catch {
+    return {
+      console: { raw: String(error) },
+      body: { error: "PDF oluşturulurken hata oluştu", detail: "Unknown error" },
+    };
+  }
+}
 
+/* ================== Common head ================== */
+// Harici font @import kullanmıyoruz (prod’da bloklanma/timeout riski)
+function baseHead() {
+  return `
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light only" />
+    <style>
+      :root { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+    </style>
+  `;
+}
+
+/* ================== Templates ================== */
 function escapeHtml(unsafe: string): string {
   return unsafe
     .replace(/&/g, "&amp;")
@@ -125,21 +180,7 @@ function getSafeValue(value: string | undefined): string {
   return value ? escapeHtml(value) : "";
 }
 
-/* ================= Templates ================= */
-/* Not: Harici @import kaldırıldı; sistem fontları kullanıldı. */
-
-function baseHead() {
-  return `
-    <meta charset="utf-8" />
-    <meta name="color-scheme" content="light only" />
-    <style>
-      :root { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      * { box-sizing: border-box; }
-      body { margin: 0; }
-    </style>
-  `;
-}
-
+/* ---------- Kakuna ---------- */
 function generateKakunaTemplate(data: Required<FormValues>): string {
   return `
     <html>
@@ -154,7 +195,6 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
           .fullname { font-weight: 600; font-size: 20px; line-height: 24px; text-align: center; }
           .contact-info { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; }
           .contact-item { display: flex; align-items: center; font-size: 12px; text-decoration: underline; margin-top: 4px; }
-          .contact-icon { width: 12px; height: 12px; margin-right: 4px; }
           .section { width: 100%; margin-top: 16px; }
           .section-title { display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#52525b; text-transform:uppercase; }
           .section-divider { border-top: 1px solid #52525b; margin: 4px -8px; }
@@ -192,7 +232,7 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
             <div class="section">
               <div class="section-title">Experience</div>
               <div class="section-divider"></div>
-              ${data.experience.map((exp, i) => `
+              ${data.experience.map((exp) => `
                 <div class="item">
                   <p class="item-title">${getSafeValue(exp.company ?? "")}</p>
                   <p class="item-date">${getSafeValue(exp.date ?? "")}</p>
@@ -246,6 +286,7 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
   `;
 }
 
+/* ---------- Onyx ---------- */
 function generateOnyxTemplate(data: Required<FormValues>): string {
   return `
     <html>
@@ -257,7 +298,6 @@ function generateOnyxTemplate(data: Required<FormValues>): string {
           .fullname { font-weight:600; font-size:20px; line-height:24px; }
           .contact-info { display:flex; gap:16px; overflow-x:auto; }
           .contact-item { display:flex; align-items:center; font-size:12px; text-decoration:underline; white-space:nowrap; }
-          .contact-icon { width:12px; height:12px; margin-right:4px; color:#e11d48; }
           .main-divider { border-top:1px solid #e11d48; margin:4px -8px; }
           .thin-divider { height:.3px; background:#e11d48; border-radius:9999px; opacity:.1; margin:16px 0; }
           .section { margin-top:16px; }
@@ -348,6 +388,7 @@ function generateOnyxTemplate(data: Required<FormValues>): string {
   `;
 }
 
+/* ---------- Bronzor ---------- */
 function generateBronzorTemplate(data: Required<FormValues>): string {
   return `
     <html>
