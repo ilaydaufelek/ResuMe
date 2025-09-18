@@ -103,15 +103,15 @@ export const BronzorCv=()=>{
     <div className="h-[1px] bg-cyan-700 my-1 opacity-30" />
     <div className="flex justify-between ">
    
-      <div className="w-[50px] md:w-[100px] text-sm font-bold text-zinc-900">
+      <div className=" md:w-[100px] text-sm font-bold text-zinc-900">
         Certifications
       </div>
 
       
-      <div className="flex flex-col gap-2 w-[220px] [@media(min-width:399px)]:w-[600px]">
+      <div className="flex flex-col gap-2 w-[200px] [@media(min-width:399px)]:w-[600px]">
         {values.certifications.map((exp, i) => (
           <div key={i} className="flex justify-between">
-            <p className="font-bold text-sm break-words whitespace-normal w-[170px] md:w-full ">
+            <p className="font-bold text-sm break-words whitespace-normal w-[150px] md:w-full  ">
               {exp.name}
             </p>
             <p className="font-bold text-xs    ">{exp.date}</p>
