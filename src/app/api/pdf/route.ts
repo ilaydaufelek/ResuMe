@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     const page = await browser.newPage();
 
     await page.setContent(html, {
-      waitUntil: "networkidle0",
+      waitUntil: "networkidle2",
       timeout: 45_000,
     });
 
