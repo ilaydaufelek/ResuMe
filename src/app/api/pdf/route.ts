@@ -204,10 +204,41 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
           <p class="fullname">${getSafeValue(data.fullname)}</p>
 
           <div class="contact-info">
-            ${data.location ? `<div class="contact-item">📍 ${getSafeValue(data.location)}</div>` : ""}
-            ${data.phone ? `<div class="contact-item">📞 ${getSafeValue(data.phone)}</div>` : ""}
-            ${data.email ? `<div class="contact-item">✉️ ${getSafeValue(data.email)}</div>` : ""}
-            ${data.website ? `<div class="contact-item">🔗 ${getSafeValue(data.website)}</div>` : ""}
+            ${data.location ? `
+  <div class="contact-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    </svg>
+    ${getSafeValue(data.location)}
+  </div>` : ""}
+
+${data.phone ? `
+  <div class="contact-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M6.62 10.79a15.464 15.464 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.59a1 1 0 01-.25 1.02l-2.2 2.18z"/>
+    </svg>
+    ${getSafeValue(data.phone)}
+  </div>` : ""}
+
+${data.email ? `
+  <div class="contact-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H20c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    ${getSafeValue(data.email)}
+  </div>` : ""}
+
+${data.website ? `
+  <div class="contact-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="level-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18  c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2 v6h-2zm0 8h2v2h-2z"/> </svg>
+               
+             
+              
+              
+   
+    ${getSafeValue(data.website)}
+  </div>` : ""}
           </div>
 
           ${data.summary ? `
