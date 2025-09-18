@@ -262,7 +262,7 @@ function generateKakunaTemplate(data: Required<FormValues>): string {
                     <div class="language-level">
                       ${Array.from({ length: 6 }).map((_, idx) =>
                         idx < level
-                          ? `<svg class="level-icon filled-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`
+                          ? `<svg class="level-icon filled-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>`
                           : `<svg class="level-icon empty-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`
                       ).join("")}
                     </div>
