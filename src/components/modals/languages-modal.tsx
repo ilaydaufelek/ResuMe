@@ -21,6 +21,8 @@ export const LanguagesModal=()=>{
     const handleClose=()=>{
       onClose();
     }
+
+    console.log("deneme")
     return(
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="dark:bg-zinc-900 bg-zinc-200 p-6 space-y-4">
@@ -54,6 +56,8 @@ export const LanguagesModal=()=>{
   )}
 />
 
+
+
       
 
         
@@ -64,7 +68,7 @@ export const LanguagesModal=()=>{
           <Button
           type="button"
 
-         onClick={()=>append({name:'' ,level:1})}
+         onClick={()=>append({name:'' , level:1})}
         >
           + Add new item
         </Button>
