@@ -149,7 +149,7 @@ export const SidebarItem = () => {
       <div className="space-y-2 overflow-hidden w-[300px] md:w-full  ">
         {getValues("experience").map((exp:ExperienceItem, i: number) => (
           <DropdownMenu key={i}>
-      <DropdownMenuTrigger className="text-zinc-200 w-full   dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
+      <DropdownMenuTrigger className="dark:text-zinc-200 text-zinc-900  w-full hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center">
          <p className=' w-full break-words whitespace-normal text-left ' > {exp.company} - {exp.date}</p>
         </DropdownMenuTrigger>
     
@@ -160,7 +160,7 @@ export const SidebarItem = () => {
          <button
           type="button"
           onClick={() => onOpen("experience",)}
-          className="text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
+          className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
         >
           + Add new item
         </button>
@@ -170,7 +170,7 @@ export const SidebarItem = () => {
     
     :(
     <button 
-    className='text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2  '
+    className='dark:text-zinc-200 text-zinc-900  w-full hover:bg-zinc-300/20 dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2  '
      type="button" onClick={() => onOpen('experience')}>
      Add Experience
     </button>
@@ -192,7 +192,7 @@ export const SidebarItem = () => {
        <div className='space-y-2 overflow-hidden w-[300px] md:w-full  ' >
         {getValues('education').map((exp:EducationItem , i:number)=>(
           <DropdownMenu key={i} >
-          <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
+          <DropdownMenuTrigger  className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
            <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
        
@@ -204,7 +204,7 @@ export const SidebarItem = () => {
          <button
           type="button"
           onClick={() => onOpen("education")}
-          className="text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
+          className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
         >
           + Add new item
         </button>
@@ -217,7 +217,7 @@ export const SidebarItem = () => {
     
     :(
       <button 
-    className='text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
+    className='dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
      type="button" onClick={() => onOpen('education')}>
      Add Education
     </button>
@@ -239,7 +239,7 @@ export const SidebarItem = () => {
        <div className='space-y-2 overflow-hidden w-[300px] md:w-full  '  >
         {getValues('certifications').map((exp:CertificationItem, i:number)=>(
           <DropdownMenu key={i} >
-          <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
+          <DropdownMenuTrigger  className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
              <p className=' w-full break-words whitespace-normal text-left' >{exp.name} - {exp.date}</p>
           </DropdownMenuTrigger>
         </DropdownMenu>
@@ -250,7 +250,7 @@ export const SidebarItem = () => {
          <button
           type="button"
           onClick={() => onOpen("certifications")}
-          className="text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
+          className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
         >
           + Add new item
         </button>
@@ -263,7 +263,7 @@ export const SidebarItem = () => {
     
     :(
       <button 
-    className='text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
+    className='dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
      type="button" onClick={() => onOpen('certifications')}>
      Add Certifications
     </button>
@@ -286,7 +286,7 @@ export const SidebarItem = () => {
        <div className='space-y-2 overflow-hidden w-[300px] md:w-full  ' >
         {getValues('languages').map((exp:LanguageItem , i:number)=>(
           <DropdownMenu key={i} >
-          <DropdownMenuTrigger  className="text-zinc-200 w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
+          <DropdownMenuTrigger  className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  w-full dark:hover:bg-zinc-800/20 border border-dotted p-4 flex items-center" >
             {exp.name} 
           </DropdownMenuTrigger>
          
@@ -298,7 +298,7 @@ export const SidebarItem = () => {
          <button
           type="button"
           onClick={() => onOpen("languages")}
-          className="text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
+          className="dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-2 font-semibold  ml-auto "
         >
           + Add new item
         </button>
@@ -311,7 +311,7 @@ export const SidebarItem = () => {
     
     :(
       <button 
-    className='text-zinc-200 dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
+    className='dark:text-zinc-200 text-zinc-900   hover:bg-zinc-300/20  dark:hover:bg-zinc-800/20 border border-dotted p-4 font-semibold mt-2 '
      type="button" onClick={() => onOpen('languages')}>
      Add Languages
     </button>

@@ -30,7 +30,7 @@ const BuildPage = () => {
 
 
   return (
-    <div className="h-full md:h-screen w-full flex bg-zinc-900  justify-center items-center ">
+    <div className="h-full md:h-screen w-full flex dark:bg-zinc-900 bg-zinc-200   justify-center items-center ">
       <div className="w-full md:w-[800px] mt-20 flex items-center justify-center  h-full md:h-screen ">
         <div className="w-[650px] md:w-[800px] h-screen space-x-4 bg-white space-y-4 min-h-screen md:h-screen  ">
         <ScrollArea className="h-full" >

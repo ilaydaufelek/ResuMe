@@ -23,7 +23,7 @@ export const EducationModal=()=>{
     }
     return(
          <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent className="bg-zinc-900 p-6 space-y-4">
+      <DialogContent className="dark:bg-zinc-900 bg-zinc-200 p-6 space-y-4">
         <DialogHeader>
           <DialogTitle>Education</DialogTitle>
         </DialogHeader>

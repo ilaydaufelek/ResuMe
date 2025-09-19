@@ -46,7 +46,7 @@ export const OnyxCv=()=>{
          {values.experience.map((exp,i)=>(
          <div key={i} className="" >
             <div  className=" w-full flex items-center justify-between mt-2 space-x-4 " >
-          <p className="font-semibold text-sm break-words whitespace-normal " >{exp.company}</p>
+          <p className=" w-[150px]  md:w-[350px] font-semibold text-sm break-words whitespace-normal " >{exp.company}</p>
           <p className="font-semibold text-sm" >{exp.date}</p>
           </div>
        
@@ -64,7 +64,7 @@ export const OnyxCv=()=>{
          {values.education.map((exp,i)=>(
          <div key={i} className="overflow-x-auto  ">
             <div className=" w-full flex items-center justify-between mt-2 space-x-4 " >
-          <p className="font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
+          <p className="  w-[150px]  md:w-[350px] font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
           <p className="font-semibold text-sm break-words whitespace-normal " >{exp.date}</p>
           </div>
           </div>
@@ -82,7 +82,7 @@ export const OnyxCv=()=>{
          {values.certifications.map((exp,i)=>(
          <div key={i} className="overflow-x-auto ">
             <div className=" w-full flex items-center justify-between mt-2 space-x-4 " >
-          <p className="font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
+          <p className=" w-[150px]  md:w-[350px] font-semibold text-sm break-words whitespace-normal " >{exp.name}</p>
           <p className="font-semibold text-sm break-words whitespace-normal " >{exp.date}</p>
           </div>
           </div>

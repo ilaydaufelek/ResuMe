@@ -23,7 +23,7 @@ export const LanguagesModal=()=>{
     }
     return(
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent className="bg-zinc-900 p-6 space-y-4">
+      <DialogContent className="dark:bg-zinc-900 bg-zinc-200 p-6 space-y-4">
         <DialogHeader>
           <DialogTitle>Languages</DialogTitle>
         </DialogHeader>
@@ -32,7 +32,7 @@ export const LanguagesModal=()=>{
           <div key={field.id} className="space-y-4">
             <div className="flex space-x-2 " >
              <Button
-              className="bg-primary text-primary-foreground shadow-xs hover:bg-red-600/60"
+              className="bg-primary text-primary-foreground shadow-xs hover:bg-zinc-600/60 dark:hover:bg-zinc-300/50 "
               size='icon'
               onClick={()=>remove(index)} >-</Button>
             
