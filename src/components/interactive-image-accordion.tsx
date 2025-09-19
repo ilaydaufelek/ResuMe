@@ -97,8 +97,8 @@ export const LandingAccordionItem: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-zinc-900 font-sans h-screen ">
-      <div className='m-2' >
+    <div className="bg-white dark:bg-black font-sans h-screen ">
+      <div className='p-2' >
         <ModeToggle/>
       </div>
       <section className="container mx-auto px-4 py-12 md:py-24">
