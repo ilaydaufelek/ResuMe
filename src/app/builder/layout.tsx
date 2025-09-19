@@ -71,6 +71,8 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
        certifications:[],
      }
    }) 
+
+   console.log(form.formState.errors)
    
 
     useEffect(() => {
