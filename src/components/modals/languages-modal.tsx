@@ -64,7 +64,7 @@ export const LanguagesModal=()=>{
           <Button
           type="button"
 
-         onClick={()=>append({name:'' ,level:''})}
+         onClick={()=>append({name:'' ,level:1})}
         >
           + Add new item
         </Button>
