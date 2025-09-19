@@ -72,7 +72,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
      }
    }) 
 
-   console.log(form.formState.errors)
+   
    
 
     useEffect(() => {

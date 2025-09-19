@@ -22,7 +22,7 @@ export const LanguagesModal=()=>{
       onClose();
     }
 
-    console.log("deneme")
+    
     return(
         <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="dark:bg-zinc-900 bg-zinc-200 p-6 space-y-4">
