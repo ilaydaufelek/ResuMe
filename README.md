@@ -1,4 +1,4 @@
-# Resume Builder
+# ResuMe Builder
 
 A modern and minimal resume builder built with Next.js, TypeScript, and React.  
 Designed to be simple, fast, and practical.
