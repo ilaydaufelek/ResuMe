@@ -5,10 +5,10 @@ import { TemplatePage } from "@/components/templates/template"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { SheetTrigger,Sheet, SheetContent, SheetHeader, SheetTitle  } from "@/components/ui/sheet"
 import {  PanelLeftOpen,  PanelRightOpen} from "lucide-react"
-import { FormProvider, useForm } from "react-hook-form"
+import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
-import { useUser } from '@clerk/nextjs'
+
 
 
 const formSchema = z.object({
@@ -50,7 +50,6 @@ const formSchema = z.object({
 const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [isLoaded,setIsLoaded]=useState(false)
-  const{user}=useUser()
 
  const storedValues = typeof window !== 'undefined'
     ? localStorage.getItem('resume')
@@ -72,12 +71,13 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
      }
    }) 
 
-   
-   
+  
+      
 
     useEffect(() => {
     setIsLoaded(true)
   }, [])
+  const fullname=form.watch("fullname")
 
   if (!isLoaded) return null
 
@@ -100,7 +100,7 @@ const BuilderLayout = ({ children }: { children: React.ReactNode }) => {
           </SheetContent>
           </Sheet>
       </div>
-     <p className=' md:hidden flex items-center font-semibold' > {user?.fullName} CV</p>
+     <p className=' md:hidden flex items-center font-semibold' > {fullname} CV</p>
           <div>
              <Sheet >
       <SheetTrigger className="md:hidden  ">
